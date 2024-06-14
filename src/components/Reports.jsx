@@ -25,10 +25,10 @@ function Reports() {
         <table>
           <thead>
             <tr>
-              <th>Users (Users who report)</th>
-              <th>Image of report</th>
-              <th>Report location</th>
-              <th>Status Report (Pending/Accepted/Rejected)</th>
+              <th>Users</th>
+              <th>Images</th>
+              <th>Location</th>
+              <th>Status Report</th>
             </tr>
           </thead>
           <tbody>
