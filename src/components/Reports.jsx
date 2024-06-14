@@ -7,39 +7,67 @@ function Reports() {
   const [reports, setReports] = useState([]);
 
   useEffect(() => {
-    // INI GATAU BENER ATAU NGGAK
     fetch('https://example.com/api/reports')
       .then(response => response.json())
-      .then(data => setReports(data))
+      .then(data => {
+        // Set default status to "Pending" if not provided
+        const updatedData = data.map(report => ({
+          ...report,
+          status: report.status || 'Pending',
+        }));
+        setReports(updatedData);
+      })
       .catch(error => console.error('Error fetching reports:', error));
   }, []);
 
+  const handleStatusChange = (id, newStatus) => {
+    setReports(prevReports =>
+      prevReports.map(report =>
+        report.id === id ? { ...report, status: newStatus } : report
+      )
+    );
+    // Optionally, send the updated status to the server here
+    // fetch(`https://example.com/api/reports/${id}`, {
+    //   method: 'PATCH',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ status: newStatus })
+    // });
+  };
+
   return (
-    <div className='grid-container'>
+    <div className='grid-container2'>
       <Header/>
       <Sidebar/>
-
-
-      <div className="reports-table">
-        <h2>Reports</h2>
-        <table>
+      <div className='grid-reports'>
+        <h2>Report Details</h2>
+        <table className='report-table'>
           <thead>
             <tr>
-              <th>Users</th>
-              <th>Images</th>
-              <th>Location</th>
-              <th>Status Report</th>
+              <th scope='col'>Username</th>
+              <th scope='col'>Images</th>
+              <th scope='col'>Location</th>
+              <th scope='col'>Status Report</th>
+              <th scope='col'>Comment</th>
             </tr>
           </thead>
           <tbody>
             {reports.map(report => (
-              <tr key={report.id}>
-                <td>{report.user}</td>
-                <td><img src={report.imageUrl} alt="Report Image" /></td>
-                <td>{report.location}</td>
-                <td>{report.status}</td>
-              </tr>
-            ))}
+                <tr key={report.id}>
+                  <td>{report.user}</td>
+                  <td><img src={report.imageUrl} alt={`Report by ${report.user}`} /></td>
+                  <td>{report.location}</td>
+                  <td>
+                    <select
+                      value={report.status}
+                      onChange={e => handleStatusChange(report.id, e.target.value)}
+                    >
+                      <option value='Pending'>Pending</option>
+                      <option value='Accepted'>Accepted</option>
+                      <option value='Rejected'>Rejected</option>
+                    </select>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

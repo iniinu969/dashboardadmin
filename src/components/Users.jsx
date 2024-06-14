@@ -4,12 +4,24 @@ import Sidebar from './Sidebar'
 
 function Users() {
   return (
-    <div className='grid-container'>
+    <div className='grid-container2'>
       <Header/>
       <Sidebar/>
-         <p>
-          aaaaaaaaaaaaaaaaaaaaaaaaaaa
-        </p>
+      <div className='grid-reports'>
+        <h2>Users Details</h2>
+        <table className='user-table'>
+          <thead>
+            <tr>
+              <th scope='col'>Name</th>
+              <th scope='col'>Username</th>
+              <th scope='col'>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
